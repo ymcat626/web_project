@@ -14,6 +14,7 @@ class Request(object):
         self.path = ''
         self.query = {}
         self.body = ''
+        self.headers = {}
 
     def form(self):
         """
@@ -21,8 +22,9 @@ class Request(object):
         body 的格式如下 a=b&c=d&e=1
         """
         f = {}
-        for item in self.body.split('&'):
-            k, v = item.split('=')
+        args = self.body.split('&')
+        for arg in args:
+            k, v = arg.split('=')
             k = urllib.parse.unquote(k)
             v = urllib.parse.unquote(v)
             f[k] = v
@@ -48,6 +50,15 @@ def parsed_path(path):
             k, v = item.split('=')
             query[k] = v
     return path, query
+
+
+def headers_form_request(request):
+    headers = {}
+    hs = request.split('\r\n\r\n', 1)[0]
+    for h in hs.split('\r\n')[1:]:
+        k, v = h.split(': ')
+        headers[k] = v
+    return headers
 
 
 def error(request_obj, code=404):
@@ -84,7 +95,6 @@ def run(host='', port=3000):
                 buffer_size = 1024
                 r = connection.recv(buffer_size)
                 request += r
-
                 if len(r) < buffer_size:
                     break
 
@@ -95,10 +105,14 @@ def run(host='', port=3000):
             # chrome浏览器会发送空的请求，这里为了防止程序崩溃进行判断
             if len(request.split()) < 2:
                 continue
+
+            # 获取path，method，body, headers
             path = request.split()[1]
             # 给request_obj设置method
             request_obj.method = request.split()[0]
             request_obj.body = request.split('\r\n\r\n', 1)[1]
+            request_obj.headers = headers_form_request(request)
+            log("headers:", request_obj.headers)
 
             response = response_for_path(path)
             connection.sendall(response)

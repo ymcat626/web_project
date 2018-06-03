@@ -18,7 +18,7 @@ def load(path):
     with open(path, 'r', encoding='utf-8') as f:
         s = f.read()
         log('load', s)
-        return json.load(s)
+        return json.loads(s)
 
 
 class Model(object):
@@ -41,7 +41,38 @@ class Model(object):
         path = cls.db_path()
         models = load(path)
         ms = [cls.new(m) for m in models]
+        log('all', ms)
         return ms
+
+    @classmethod
+    def find_by(cls, **kwargs):
+        # u = User.find_by(username='gua')
+        # 上面这句可以返回一个username 属性为'gua'的User实例，如果有多条这样的数据, 返回第一个：如果没这样的数据, 返回None
+        log('kwargs:', kwargs)
+        k, v = '', ''
+        for key, value in kwargs.items():
+            k, v = key, value
+        all = cls.all()
+        for m in all:
+            if v == m.__dict__[k]:
+                return m
+        return None
+
+    @classmethod
+    def find_all(cls, **kwargs):
+        # us = User.find_all(password='123')
+        # 上面这句可以以 list 的形式返回所有 password 属性为 '123' 的 User 实例
+        # 如果没这样的数据, 返回 []
+        result = []
+        log('kwargs:', kwargs)
+        k, v = '', ''
+        for key, value in kwargs.items():
+            k, v = key, value
+        all = cls.all()
+        for m in all:
+            if v == m.__dict__[k]:
+                result.append(m)
+        return result
 
     def save(self):
         models = self.all()
@@ -64,7 +95,12 @@ class User(Model):
 
     def validate_login(self):
         # test
-        return self.username == 'gua' and self.password == '123'
+        # return self.username == 'gua' and self.password == '123'
+        users = User.all()
+        for user in users:
+            if self.username == user.username and self.password == user.password:
+                return True
+        return False
 
     def validate_register(self):
         return len(self.username) > 2 and len(self.password) > 2
