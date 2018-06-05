@@ -2,8 +2,9 @@
 import socket
 import urllib.parse
 
-from web004.routes import route_static, route_dict
-from web004.util import log
+from web005.routes import route_static, route_dict
+from web005.util import log
+from web005.routes_todo import route_dict as todo_route
 
 
 class Request(object):
@@ -81,6 +82,7 @@ def response_for_path(path):
         '/static': route_static
     }
     d.update(route_dict)
+    d.update(todo_route)
     response = d.get(path, error)
     # log('response_for_path:', response.__name__ )
     return response(request)

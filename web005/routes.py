@@ -1,8 +1,8 @@
 # coding: utf-8
 import random
 
-from web004.models import User, Message
-from web004.util import log
+from web005.models import User, Message
+from web005.util import log
 
 
 def template(name):

@@ -1,7 +1,7 @@
 # coding: utf-8
 import json
 
-from web004.util import log
+from web005.util import log
 
 
 def save(data, path):
