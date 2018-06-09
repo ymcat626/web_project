@@ -1,3 +1,7 @@
+from web005.routes import (
+    current_user,
+    User,
+)
 from web005.todo import Todo
 from web005.util import log
 
@@ -33,19 +37,25 @@ def redirect(url):
 
 
 def index(request):
+    uname = current_user(request)
+    u = User.find_by(username=uname)
+    if u is None:
+        return redirect('/login')
+
     headers = {
         'Content-Type': 'text/html',
     }
     header = response_with_headers(headers)
     body = template('todo_index.html')
 
-    todo_list = Todo.all()
+    todo_list = Todo.find_all(user_id=u.id)
     # 列表推导用来生成html语句
-
     # todo_html = ''.join(['<h3>{}: {}</h3>'.format(todo.id, todo.title) for todo in todo_list])
     todos = []
     for todo in todo_list:
-        t = '<h3>{}: {}</h3>'.format(todo.id, todo.title)
+        edit_link = '<a href="/todo/edit?id={}">编辑</a>'.format(todo.id)
+        delete_link = '<a href="/todo/delete?id={}">删除</a>'.format(todo.id)
+        t = '<h3>{}: {} {} {}</h3>'.format(todo.id, todo.title, edit_link, delete_link)
         todos.append(t)
     todo_html = ''.join(todos)
     # 开始body.replace()替换这里出现bug，原因是自己对str.replace()的不熟悉
@@ -63,12 +73,65 @@ def add(request):
     :param request:
     :return:
     '''
+    uname = current_user(request)
+    u = User.find_by(username=uname)
     if request.method == 'POST':
         form = request.form()
         todo = Todo.new(form)
+        todo.user_id = u.id
         todo.save()
         log('debug add todo:', todo.id, todo.title)
 
+    return redirect('/todo')
+
+
+def edit(request):
+    headers = {
+        'Content-Type': 'text/html',
+    }
+    header = response_with_headers(headers)
+    uname = current_user(request)
+    u = User.find_by(username=uname)
+    if u is None:
+        return redirect('/login')
+
+    todo_id = int(request.query.get('id', -1))
+    t = Todo.find_by(id=todo_id)
+    if t.user_id != u.id:
+        return redirect('/login')
+
+    body = template('todo_edit.html')
+    body = body.replace('{{id}}', str(todo_id))
+    r = header + '\r\n' + body
+    return r.encode('utf-8')
+
+
+def update(request):
+    uname = current_user(request)
+    u = User.find_by(username=uname)
+    if u is None:
+        return redirect('/login')
+    if request.method == 'POST':
+        form = request.form()
+        todo_id = int(form.get('id', -1))
+        todo = Todo.find_by(id=todo_id)
+        if todo is not None:
+            todo.title = form.get('title', todo.title)
+            todo.save()
+        return redirect('/todo')
+
+
+def delete(request):
+    uname = current_user(request)
+    u = User.find_by(username=uname)
+    if u is None:
+        return redirect('/login')
+    todo_id = int(request.query.get('id', -1))
+    todo = Todo.find_by(id=todo_id)
+    if todo.user_id != u.id:
+        return redirect('/login')
+    if todo is not None:
+        todo.remove()
     return redirect('/todo')
 
 
@@ -76,6 +139,11 @@ def add(request):
 # key 是路由（路由就是 path）
 # value 是路由处理函数（就是响应）
 route_dict = {
+    # 用于显示页面
     '/todo': index,
+    '/todo/edit': edit,
+    # 用于对数据进行处理
     '/todo/add': add,
+    '/todo/update': update,
+    '/todo/delete': delete,
 }
