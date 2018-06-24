@@ -126,6 +126,7 @@ def delete(request):
     u = User.find_by(username=uname)
     if u is None:
         return redirect('/login')
+    # 找到todo的id,判断todo是否存在
     todo_id = int(request.query.get('id', -1))
     todo = Todo.find_by(id=todo_id)
     if todo.user_id != u.id:

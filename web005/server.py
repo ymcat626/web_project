@@ -35,7 +35,10 @@ class Request(object):
                 k, v = cookie.split('=')
                 self.cookies[k] = v
 
-    def add_headers(self, lines):
+    def add_headers(self, header):
+        # 清空 headers
+        self.headers = {}
+        lines = header
         for line in lines:
             k, v = line.split(': ', 1)
             self.headers[k] = v
@@ -109,7 +112,7 @@ def run(host='', port=3000):
 
             log('原始请求：', req)
             path = req.split()[1]
-            log('原始path:', path)
+            # log('原始path:', path)
             request.method = req.split()[0]
             request.add_headers(req.split('\r\n\r\n', 1)[0].split('\r\n')[1:])
             request.body = req.split('\r\n\r\n', 1)[1]
