@@ -17,6 +17,7 @@ class Request(object):
         for item in self.body.split('&'):
             k, v = item.split('=')
             form[k] = v
+        log('request form:', form)
         return form
 
 
