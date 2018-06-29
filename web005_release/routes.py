@@ -20,6 +20,15 @@ def current_user():
     pass
 
 
+def response_with_headers(headers, code=200):
+    header_dict = {
+        '200': 'HTTP/1.1 200 OK\r\n',
+        '302': 'HTTP/1.1 302 OK\r\n'
+    }
+    header = header_dict[code]
+    header += '\r\n'.join(['{}: {}'.format(k, v) for k, v in headers.items])
+    return header
+
 def route_index(request):
     headers = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n'
     body = template('index.html')
@@ -45,9 +54,11 @@ def route_register(request):
 
 
 def route_login(request):
-    headers = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n'
+    header_dict = {
+        'Content-Type': 'text/html'
+    }
+    headers = response_with_headers(header_dict)
     body = template('login.html')
-
     username = ''
     result = ''
     if request.method == 'POST':
@@ -60,7 +71,8 @@ def route_login(request):
             # 添加session
             session_id = random_str()
             session[session_id] = username
-            
+            header_dict['Set-Cookie'] = session_id
+
         else:
             result = '帐号或者密码错误！'
     body = body.replace('{{username}}', username)
