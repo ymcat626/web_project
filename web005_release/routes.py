@@ -1,5 +1,23 @@
+import random
+
 from web005_release.models.user import User
 from web005_release.utils import template
+
+session = {}
+message_list = []
+
+
+def random_str():
+    seed = 'qwertyuiopasdfghjklzxcvbnm1234567890'
+    result = ''
+    for i in range(16):
+        index = random.randint(1, len(range(16)) - 1)
+        result += seed[index]
+    return result
+
+
+def current_user():
+    pass
 
 
 def route_index(request):
@@ -38,6 +56,11 @@ def route_login(request):
         if user.validate_login():
             username = user.username
             result = '登录成功！'
+
+            # 添加session
+            session_id = random_str()
+            session[session_id] = username
+            
         else:
             result = '帐号或者密码错误！'
     body = body.replace('{{username}}', username)

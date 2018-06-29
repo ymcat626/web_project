@@ -11,6 +11,8 @@ class Request(object):
         self.query = {}
         self.method = ''
         self.body = ''
+        self.cookies = {}
+        self.headers = {}
 
     def form(self):
         form = {}
@@ -19,6 +21,21 @@ class Request(object):
             form[k] = v
         log('request form:', form)
         return form
+
+    def add_cookies(self):
+        if 'Cookie' in self.headers:
+            cookies = self.headers['Cookie']
+            for cookie in cookies.split('; '):
+                k, v = cookie.split('=')
+                self.cookies[k] = v
+
+    def add_headers(self, lines):
+        for line in lines:
+            k, v = line.split(': ', 1)
+            self.headers[k] = v
+        # 清除cookies
+        self.cookies = {}
+        self.add_cookies()
 
 
 request = Request()
@@ -74,6 +91,7 @@ def run(host='', port=3000):
                     break
 
             req = req.decode('utf-8')
+            # chrome有时会发送空请求，这里进行处理
             if len(req) < 1:
                 continue
             log('原始请求：', req)
@@ -81,6 +99,7 @@ def run(host='', port=3000):
             path = req.split()[1]
             request.method = req.split()[0]
             request.body = req.split('\r\n\r\n', 1)[1]
+            request.add_headers(req.split('\r\n\r\n', 1)[0].split('\r\n')[1:])
 
             response = response_for_path(path)
             conn.sendall(response)
