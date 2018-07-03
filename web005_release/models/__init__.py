@@ -93,6 +93,23 @@ class Model(object):
         models_dict = [m.__dict__ for m in models]
         save(path, models_dict)
 
+    def remove(self):
+        # 删除实例
+        path = self.db_path()
+        models = self.all()
+
+        if self.__dict__.get('id', None) is not None:
+            index = -1
+            for i, model in enumerate(models):
+                if self.id == model.id:
+                    index = i
+
+            if index != -1:
+                del models[index]
+
+        models_dict = [m.__dict__ for m in models]
+        save(path, models_dict)
+
     def __repr__(self):
         # 把实例的所有属性显示出来
         class_name = self.__class__.__name__

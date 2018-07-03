@@ -1,8 +1,10 @@
 # coding: utf-8
 import socket
+from urllib.parse import unquote
 
 from web005_release.routes import route_static, route_dict
 from web005_release.utils import log
+from web005_release.route_todo import route_dict as route_todo
 
 
 class Request(object):
@@ -18,8 +20,10 @@ class Request(object):
         form = {}
         for item in self.body.split('&'):
             k, v = item.split('=')
+            k = unquote(k)
+            v = unquote(v)
             form[k] = v
-        log('request form:', form)
+        # log('request form:', form)
         return form
 
     def add_cookies(self):
@@ -63,13 +67,13 @@ def error(request, code=404):
 
 def response_for_path(path):
     path, query = parsed_path(path)
-    log('path and query:', path, query)
     request.path = path
     request.query = query
     r = {
         '/static': route_static
     }
     r.update(route_dict)
+    r.update(route_todo)
     response = r.get(path, error)
     return response(request)
 
@@ -80,7 +84,7 @@ def run(host='', port=3000):
         while True:
             s.listen(5)
             conn, addr = s.accept()
-            log('request addr:', addr)
+            # log('request addr:', addr)
             req = b''
             # 获取请求
             while True:

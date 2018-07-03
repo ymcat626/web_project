@@ -12,6 +12,5 @@ def log(*args, **kwargs):
 
 def template(name):
     path = 'templates/{}'.format(name)
-    log('template:', path)
     with open(path, 'r', encoding='utf-8') as f:
         return f.read()
