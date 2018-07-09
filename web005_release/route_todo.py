@@ -88,6 +88,7 @@ def route_delete(request):
     return redirect('/todo')
 
 
+# 路由字典，key是路由，value是路由的处理函数
 route_dict = {
     '/todo': route_index,
     '/todo/edit': route_edit,
