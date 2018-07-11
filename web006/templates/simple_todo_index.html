@@ -14,6 +14,7 @@
         <div>
             {{ t.id }} : {{ t.task }}
             <a href="/delete?id={{t.id}}">删除</a>
+            <a href="/edit?id={{t.id}}">编辑</a>
         </div>
     {% endfor %}
 </body>
