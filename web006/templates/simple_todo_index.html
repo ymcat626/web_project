@@ -12,7 +12,7 @@
 
     {% for t in todos %}
         <div>
-            {{ t.id }} : {{ t.task }}
+            {{ t.id }} : {{ t.task }} @ {{ t.ct() }}
             <a href="/delete?id={{t.id}}">删除</a>
             <a href="/edit?id={{t.id}}">编辑</a>
         </div>

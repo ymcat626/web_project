@@ -1,9 +1,11 @@
 # coding: utf-8
+import time
+
 from web006.todo import Todo
 from web006.utils import (
     log,
     template,
-)
+    redirect)
 
 
 def http_response(body):
@@ -19,19 +21,39 @@ def index(request):
 
 
 def edit(request):
-    pass
+    todo_id = int(request.query.get('id', -1))
+    todo = Todo.find_by(id=todo_id)
+    body = template('simple_todo_edit.html', todo=todo)
+    return http_response(body)
 
 
 def add(request):
-    pass
+    form = request.form()
+    todo = Todo.new(form)
+    todo.save()
+    return redirect('/')
 
 
 def update(request):
-    pass
+    if request.method == 'POST':
+        form = request.form()
+        # ValueError: invalid literal for int() with base 10: ''
+        todo_id = int(request.query.get('id', -1))
+        log('debug update todo id :', todo_id)
+        todo = Todo.find_by(id=todo_id)
+        if todo is not None:
+            todo.task = form.get('task', todo.task)
+            todo.update_time = int(time.time())
+            log('debug update todo task:', todo.task)
+            todo.save()
+    return redirect('/')
 
 
 def delete(request):
-    pass
+    todo_id = int(request.query.get('id', -1))
+    todo = Todo.find_by(id=todo_id)
+    todo.remove()
+    return redirect('/')
 
 
 route_dict = {

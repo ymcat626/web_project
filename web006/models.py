@@ -1,7 +1,7 @@
 # coding: utf-8
 import json
 
-from web005.util import log
+from web006.utils import log
 
 
 def save(data, path):
@@ -13,7 +13,7 @@ def save(data, path):
 def load(path):
     with open(path, 'r', encoding='utf-8') as f:
         data = f.read()
-        log('load : ({})'.format(data))
+        # log('load : ({})'.format(data))
         return json.loads(data)
 
 
