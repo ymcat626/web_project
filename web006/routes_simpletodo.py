@@ -5,13 +5,9 @@ from web006.todo import Todo
 from web006.utils import (
     log,
     template,
-    redirect)
-
-
-def http_response(body):
-    headers = 'HTTP/1.1 200 OK\r\n\r\n'
-    r = headers + body
-    return r.encode(encoding='utf-8')
+    redirect,
+    http_response,
+)
 
 
 def index(request):

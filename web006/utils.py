@@ -41,3 +41,9 @@ def redirect(url):
     r = response_with_headers(headers, 302) + '\r\n'
     log('redirect:', r)
     return r.encode('utf-8')
+
+
+def http_response(body, headers=None, code=200):
+    header = response_with_headers(headers, code)
+    r = header + '\r\n' + body
+    return r.encode(encoding='utf-8')
