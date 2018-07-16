@@ -279,7 +279,9 @@ class Tweet(Model):
         self.user_id = form.get('user_id', user_id)
 
     def comments(self):
-        return [c for c in Comment.all() if c.tweet_id == self.id]
+        # 返回此条tweet的所有评论
+        # return [c for c in Comment.all() if c.tweet_id == self.id]
+        return Comment.find_all(tweet_id=self.id)
 
 
 # 评论类
