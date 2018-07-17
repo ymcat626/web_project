@@ -5,13 +5,13 @@ import sqlite3
 def create(conn):
     sql_create = '''
     CREATE TABLE `users` (
-          `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREAMENT,
+          `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
           `username` TEXT NOT NULL UNIQUE,
           `password` TEXT NOT NULL,
           email TEXT
     )
     '''
-    conn.excute(sql_create)
+    conn.execute(sql_create)
     print('创建成功！')
 
 
@@ -22,23 +22,23 @@ def insert(conn, username, password, email):
     VALUES
         (?, ?, ?)
     '''
-    conn.excute(sql_insert, (username, password, email))
+    conn.execute(sql_insert, (username, password, email))
     print('插入数据成功')
 
 
 def select(conn):
-    user = 'hah'
-    pwd = 'hah'
     sql = '''
     SELECT
-        id, username, email
+        id
     FROM
         users
     WHERE
-        username=? and password=?
+        id = 1
     '''
     cursor = conn.execute(sql)
     print('所有数据', list(cursor))
+    # for row in cursor:
+    #     print(row)
 
 
 def delete(conn, user_id):
@@ -48,7 +48,7 @@ def delete(conn, user_id):
     WHERE 
         id=?
     '''
-    conn.excute(sql_delete, (user_id))
+    conn.execute(sql_delete, (user_id))
 
 
 def update(conn, user_id, email):
@@ -60,7 +60,7 @@ def update(conn, user_id, email):
     WHERE
         `id`=?
     '''
-    conn.excute(sql_update, (email, user_id))
+    conn.execute(sql_update, (email, user_id))
 
 
 def main():
@@ -69,10 +69,10 @@ def main():
     print('打开了数据库')
 
     create(conn)
-    insert(conn, 'sql4', '1234', 'a@b.c')
-    delete(conn, 1)
-    update(conn, 1, 'haha@163.com')
-    select(conn)
+    # insert(conn, 'sql4', '1234', 'a@b.c')
+    # delete(conn, 1)
+    # update(conn, 1, 'haha@163.com')
+    # select(conn)
 
     # 用 commit 函数提交修改，否则将不会被写入到数据库中
     conn.commit()
