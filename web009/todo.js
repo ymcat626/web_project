@@ -49,3 +49,30 @@ todoList.addEventListener('click', function (event) {
         self.parentElement.remove();
     }
 });
+
+// ajax
+var ajax = function (method, path, data, responseCallBack) {
+    var r = new XMLHttpRequest()
+    // 设置请求方法和请求地址
+    r.open(method, path, true)
+    // 设置发送的数据格式
+    r.setRequestHeader('Content-Type', 'application/json')
+    // 注册响应函数
+    r.onreadystatechange = function () {
+        if (r.readyState === 4){
+            responseCallBack(r)
+        }
+    }
+};
+
+var loadTodos = function(){
+    var baseUrl = 'http://localhost:3000'
+    var method = 'POST'
+    var path = 'api/todo/all'
+    var url = baseUrl + path
+    var data = 'todo=haha'
+    ajax(method, path, data, function () {
+        var todos = JSON.parse(r.response)
+        insertTodo(todos)
+    })
+}
