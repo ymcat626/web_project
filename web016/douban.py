@@ -65,7 +65,7 @@ def main():
     for i in range(0, 250, 25):
         url = f'https://movie.douban.com/top250?start={i}'
         movies = movies_from_url(url)
-        print('top 250 movies', movies)
+        print('top 250 movies\n', movies)
 
 
 if __name__ == '__main__':

@@ -8,10 +8,9 @@ from flask import (
     make_response,
 )
 
-from ..models.user import User
+from models.user import User
 
-from ..utils import log
-
+from utils import log
 
 main = Blueprint('index', __name__)
 
@@ -24,28 +23,27 @@ def current_user():
     u = User.find_by(id=uid)
     return u
 
+
 """
 用户在这里可以
-    访问首页(会被设置 cookie)
+    访问首页
     注册
     登录
 
 用户登录后, 会写入 session, 并且定向到 /profile
 """
+
+
 @main.route("/")
 def index():
     u = current_user()
-    template = render_template("index.html", user=u)
-    # 如果要写入 cookie, 必须使用 make_response 函数
-    # 然后再用 set_cookie 来设置 cookie
-    r = make_response(template)
-    r.set_cookie('cookie_name', 'GUA')
-    return r
+    return render_template("index.html", user=u)
 
 
 @main.route("/register", methods=['POST'])
 def register():
     form = request.form
+    # 用类函数来判断
     u = User.register(form)
     return redirect(url_for('.index'))
 
@@ -55,11 +53,14 @@ def login():
     form = request.form
     u = User.validate_login(form)
     if u is None:
-        return redirect(url_for('.index'))
+        # 转到 topic.index 页面
+        return redirect(url_for('topic.index'))
     else:
         # session 中写入 user_id
         session['user_id'] = u.id
-        return redirect(url_for('.profile'))
+        # 设置 cookie 有效期为 永久
+        session.permanent = True
+        return redirect(url_for('topic.index'))
 
 
 @main.route('/profile')
