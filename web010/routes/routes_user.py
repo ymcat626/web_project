@@ -1,9 +1,9 @@
 import random
 
-from models.user import User
-from routes.session import session
-from utils import log
-from utils import template
+from ..models.user import User
+from .session import session
+from ..utils import log
+from ..utils import template
 
 
 def random_str():

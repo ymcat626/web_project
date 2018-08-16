@@ -1,5 +1,5 @@
-from models import Model
-from models.user import User
+from . import Model
+from .user import User
 
 
 # 微博类

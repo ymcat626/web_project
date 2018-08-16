@@ -1,5 +1,5 @@
 import time
-from models import Model
+from . import Model
 
 
 # 针对我们的数据 TODO

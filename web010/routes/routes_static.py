@@ -1,5 +1,5 @@
-from utils import log
-from models.user import User
+from ..utils import log
+from ..models.user import User
 
 import random
 

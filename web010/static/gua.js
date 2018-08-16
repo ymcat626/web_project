@@ -16,7 +16,7 @@ var e = function(sel) {
 /*
  ajax 函数
 */
-var ajax = function(method, path, data, reseponseCallback) {
+var ajax = function(method, path, data, responseCallback) {
     var r = new XMLHttpRequest()
     // 设置请求方法和请求地址
     r.open(method, path, true)
@@ -27,7 +27,7 @@ var ajax = function(method, path, data, reseponseCallback) {
     r.onreadystatechange = function() {
         if(r.readyState === 4) {
             // r.response 存的就是服务器发过来的放在 HTTP BODY 中的数据
-            reseponseCallback(r.response)
+            responseCallback(r.response)
         }
     }
     // 把数据转换为 json 格式字符串
