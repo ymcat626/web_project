@@ -3,14 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Todo List</title>
+    <style type="text/css">
+        .done {
+            color: gray;
+            text-decoration: line-through;
+        }
+    </style>
 </head>
 <body>
-<div class="form">
+<div class="todo-form">
     <input id="id-input-content" type="text"/>
     <button id="id-button-add">add</button>
 </div>
 
-<div class="todo-list">
+<div id="id-div-container">
+    <div class="todo-cell">
+        <span contenteditable="true">hello world</span>
+        <button class="todo-delete">delete</button>
+        <button class="todo-done">done</button>
+    </div>
 </div>
 <script src="todo.js"></script>
 </body>
