@@ -1,10 +1,3 @@
-/*
-1, 给 add button 绑定事件
-2, 在事件处理函数中, 获取 input 的值
-3, 用获取的值 组装一个 todo-cell HTML 字符串
-4, 插入 todo-list 中
-*/
-
 var log = function() {
     console.log.apply(console, arguments)
 }
