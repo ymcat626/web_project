@@ -8,9 +8,9 @@ from flask import (
     make_response,
 )
 
-from models.user import User
+from ..models.user import User
 
-from utils import log
+from ..utils import log
 
 main = Blueprint('index', __name__)
 
@@ -54,7 +54,7 @@ def login():
     u = User.validate_login(form)
     if u is None:
         # 转到 topic.index 页面
-        return redirect(url_for('topic.index'))
+        return redirect(url_for('.index'))
     else:
         # session 中写入 user_id
         session['user_id'] = u.id

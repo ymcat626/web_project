@@ -5,10 +5,8 @@ from flask import (
     url_for,
     Blueprint,
 )
-
-from routes import *
-
-from models.reply import Reply
+from . import *
+from ..models.reply import Reply
 
 
 main = Blueprint('reply', __name__)

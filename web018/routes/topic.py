@@ -6,9 +6,9 @@ from flask import (
     Blueprint,
 )
 
-from routes import *
+from . import *
 
-from models.topic import Topic
+from ..models.topic import Topic
 
 
 main = Blueprint('topic', __name__)

@@ -1,5 +1,5 @@
 import time
-from models import Model
+from . import Model
 
 
 class Reply(Model):
