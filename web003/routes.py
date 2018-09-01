@@ -20,7 +20,7 @@ def route_static(request):
 
 def route_index(request):
     headers = 'HTTP/1.1 200 OL\r\nConnection: close\r\nContent: text/html\r\n'
-    body = template('index.html')
+    body = template('example.html')
     r = headers + '\r\n' + body
     return r.encode('utf-8')
 

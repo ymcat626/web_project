@@ -65,7 +65,7 @@ def route_index(request):
         'Content-Type': 'text/html'
     }
     headers = response_with_header(header_dict)
-    body = template('index.html')
+    body = template('example.html')
     username = current_user(request)
     body = body.replace('{{username}}', username)
     r = headers + '\r\n' + body

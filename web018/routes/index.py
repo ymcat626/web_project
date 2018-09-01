@@ -37,7 +37,7 @@ def current_user():
 @main.route("/")
 def index():
     u = current_user()
-    return render_template("index.html", user=u)
+    return render_template("example.html", user=u)
 
 
 @main.route("/register", methods=['POST'])

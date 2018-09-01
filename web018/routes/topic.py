@@ -17,7 +17,7 @@ main = Blueprint('topic', __name__)
 @main.route("/")
 def index():
     ms = Topic.all()
-    return render_template("topic/index.html", ms=ms)
+    return render_template("topic/example.html", ms=ms)
 
 
 @main.route('/<int:id>')

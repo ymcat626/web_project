@@ -31,7 +31,7 @@ def index():
     u = current_user()
     csrf_tokens['token'] = u.id
     bs = Board.all()
-    return render_template("topic/index.html", ms=ms, token=token, bs=bs)
+    return render_template("topic/example.html", ms=ms, token=token, bs=bs)
 
 
 @main.route('/<int:id>')

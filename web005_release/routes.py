@@ -42,7 +42,7 @@ def response_with_headers(headers, code=200):
 
 def route_index(request):
     headers = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n'
-    body = template('index.html')
+    body = template('example.html')
     username = ''
     body = body.replace('{{username}}', username)
     r = headers + '\r\n' + body

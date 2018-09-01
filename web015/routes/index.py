@@ -35,7 +35,7 @@ def current_user():
 @main.route("/")
 def index():
     u = current_user()
-    template = render_template("index.html", user=u)
+    template = render_template("example.html", user=u)
     # 如果要写入 cookie, 必须使用 make_response 函数
     # 然后再用 set_cookie 来设置 cookie
     r = make_response(template)

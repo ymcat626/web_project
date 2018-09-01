@@ -39,7 +39,7 @@ def route_index(request):
     主页的处理函数, 返回主页的响应
     """
     header = 'HTTP/1.1 210 VERY OK\r\nContent-Type: text/html\r\n'
-    body = template('index.html')
+    body = template('example.html')
     username = current_user(request)
     body = body.replace('{{username}}', username)
     r = header + '\r\n' + body
