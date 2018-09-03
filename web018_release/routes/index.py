@@ -36,7 +36,7 @@ def register():
     return redirect(url_for('.index'))
 
 
-@main.route('/profile')
+@main.route('/profile/')
 def profile():
     u = current_user()
     if u is None:

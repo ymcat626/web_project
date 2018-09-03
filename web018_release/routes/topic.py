@@ -24,3 +24,12 @@ def add():
     u = current_user()
     m = Topic.new(form, user_id=u.id)
     return redirect(url_for('.detail'), id=m.id)
+
+
+@main.route('/new')
+def new():
+    u = current_user()
+    if u is None:
+        return redirect(url_for('index.login'))
+    else:
+        return render_template('/topic/new.html')
