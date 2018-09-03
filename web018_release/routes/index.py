@@ -14,18 +14,18 @@ main = Blueprint('index', __name__)
 @main.route('/')
 def index():
     u = current_user()
-    return render_template('login.html', user=u)
+    return render_template('index.html', user=u)
 
 
 @main.route('/login', methods=['POST'])
 def login():
     form = request.form
-    u = User.validate_login()
+    u = User.validate_login(form)
     if u is None:
         return redirect(url_for('.index'))
     else:
         session['user_id'] = u.id
-        session.permannet = True
+        session.permanent = True
         return redirect(url_for('topic.index'))
 
 
