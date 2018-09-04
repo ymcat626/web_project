@@ -3,8 +3,7 @@ from flask import (
     url_for,
     redirect,
     request,
-render_template
-
+    render_template,
 )
 from ..models.topic import Topic
 from . import current_user
@@ -23,7 +22,7 @@ def add():
     form = request.form
     u = current_user()
     m = Topic.new(form, user_id=u.id)
-    return redirect(url_for('.detail'), id=m.id)
+    return redirect(url_for('.detail', id=m.id))
 
 
 @main.route('/new')
@@ -32,4 +31,11 @@ def new():
     if u is None:
         return redirect(url_for('index.login'))
     else:
-        return render_template('/topic/new.html')
+        return render_template('topic/new.html')
+
+
+@main.route('/<int:id>')
+def detail(id):
+    m = Topic.get(id)
+    return render_template('topic/detail.html', topic=m)
+

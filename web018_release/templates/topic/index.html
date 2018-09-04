@@ -13,29 +13,15 @@
 <body>
 
 <div id='main'>
-
     <div id="content">
         <div class="panel">
             <div class="header">
-
-                <a href="/?tab=all"
-                   class="topic-tab current-tab">全部</a>
-
-                <a href="/?tab=good"
-                   class="topic-tab ">精华</a>
-
-                <a href="/?tab=share"
-                   class="topic-tab ">分享</a>
-
-                <a href="/?tab=ask"
-                   class="topic-tab ">问答</a>
-
-                <a href="/?tab=job"
-                   class="topic-tab ">招聘</a>
-
-                <a href="/?tab=dev"
-                   class="topic-tab ">客户端测试</a>
-
+                <a href="/?tab=all" class="topic-tab current-tab">全部</a>
+                <a href="/?tab=good" class="topic-tab ">精华</a>
+                <a href="/?tab=share" class="topic-tab ">分享</a>
+                <a href="/?tab=ask" class="topic-tab ">问答</a>
+                <a href="/?tab=job" class="topic-tab ">招聘</a>
+                <a href="/?tab=dev" class="topic-tab ">客户端测试</a>
             </div>
 
             <div class="inner">
@@ -46,14 +32,8 @@
 
             <div class="inner no-padding">
                 <div id="topic_list">
+                    {% for t in ms %}
                     <div class='cell'>
-
-                        <a class="user_avatar pull-left" href="/user/XadillaX">
-                            <img src="https://avatars3.githubusercontent.com/u/2842176?v=4&amp;s=120"
-                                 title="XadillaX"
-                            />
-                        </a>
-
                         <span class="reply_count pull-left">
                             <span class="count_of_replies" title="回复数">
                                 102
@@ -64,33 +44,17 @@
                             </span>
                         </span>
 
-
-                        <a class='last_time pull-right' href="/topic/5b223c1d5cd02be640901490#5b865f09632c7f422e5b8253">
-                            <img class="user_small_avatar"
-                                 src="https://avatars1.githubusercontent.com/u/8046366?v=4&amp;s=120">
-                            <span class="last_active_time">1 天前</span>
-                        </a>
-
-
                         <div class="topic_title_wrapper">
-
-
                             <span class='put_top'>置顶</span>
-
-
-                            <a class='topic_title' href='/topic/5b223c1d5cd02be640901490'
-                               title='《Node.js：来一打 C++ 扩展》已出版，求支持'>
-                                《Node.js：来一打 C++ 扩展》已出版，求支持
+                            <a class='topic_title' href='{{ url_for("topic.detail", id=t.id) }}'
+                               title='{{ t.title }}'>
+                                {{ t.title }}
                             </a>
                         </div>
                     </div>
-
-
+                    {% endfor %}
                 </div>
-
-
             </div>
-
         </div>
     </div>
 
