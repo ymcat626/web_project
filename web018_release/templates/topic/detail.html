@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- meta -->
+    <meta charset="utf-8"/>
+    <meta name='description' content='CNode：Node.js专业中文社区'>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="keywords" content="nodejs, node, express, connect, socket.io"/>
+
+    <!-- style -->
+    <link rel="stylesheet" href="//o4j806krb.qnssl.com/public/stylesheets/index.min.23a5b1ca.min.css" media="all"/>
+
+    <!-- scripts -->
+    <script src="//o4j806krb.qnssl.com/public/index.min.f7c13f64.min.js"></script>
+
+
+    <title>在egg框架下，app文件夹中新建model来创建Service服务对数据库单个表的CURD操作，然后在Service文件夹中引用model中的文件写对多个表进行操作，问题如下： - CNode技术社区</title>
+
+    <meta content="_csrf" name="csrf-param">
+    <meta content="LCWqNoly-EqYkLhmMcP8DtYiS9fZn-LsFikc" name="csrf-token">
+</head>
+<body>
+
+<div id='main'>
+
+    <div id='content'>
+        <div class='panel'>
+            <div class='header topic_header'>
+                <span class="topic_full_title">
+                    {{ topic.title }}
+                </span>
+                <div class="changes">
+                    <span>
+                        发布于 4 个月前
+                    </span>
+                    <span>
+                        作者 <a href="/user/black-giser">black-giser</a>
+                    </span>
+                    <span>
+                        {{ topic.views }} 次浏览
+                    </span>
+                    <span> 来自 问答</span>
+                    <input class="span-common span-success pull-right collect_btn" type="submit" value="收藏"
+                           action="collect">
+                </div>
+            </div>
+            <div class='inner topic'>
+                <div class='topic_content'>
+                    <div class="markdown-text">
+                        <p>{{ topic.content }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class='panel'>
+            <div class='header'>
+                <span class='col_fade'>{{ topic.replies() | count }} 回复</span>
+            </div>
+            {% for reply in topic.replies() %}
+            <div class="cell reply_area reply_item">
+                <div class="author_content">
+                    <a href="/user/kouxiang2008" class="user_avatar">
+                        <img src="https://avatars1.githubusercontent.com/u/42954282?v=4&amp;s=120" title="kouxiang2008">
+                    </a>
+
+                    <div class="user_info">
+                        <a class="dark reply_author" href="/user/kouxiang2008">{{ reply.user().username }}</a>
+                        <a class="reply_time" href="#5b8e21743224281a3eeb2961">{{ loop.index }}楼•{{ reply.time() }}</a>
+                    </div>
+                    <div class="user_action">
+                        <span>
+                            <i class="fa up_btn fa-thumbs-o-up invisible" title="喜欢"></i>
+                        </span>
+                        <span>
+                            <i class="fa fa-reply reply2_btn" title="回复"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="reply_content from-kouxiang2008">
+                    <div class="markdown-text">
+                        <p>{{ reply.content }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+        <div class='panel'>
+            <div class='header'>
+                <span class='col_fade'>添加回复</span>
+            </div>
+            <div class='inner reply'>
+                <form id='reply_form' action='{{ url_for("reply.add") }}' method='post'>
+
+                    <div class='markdown_editor in_editor'>
+                        <div class='markdown_in_editor'>
+                            <input type="hidden" name="topic_id" value="{{ topic.id }}">
+                            <textarea class='editor' name='content' rows='8'></textarea>
+                            <div class='editor_buttons'>
+                                <input class='span-primary submit_btn' type="submit" data-loading-text="回复中.."
+                                       value="回复">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <input type='hidden' name='_csrf' id="_csrf" value='LCWqNoly-EqYkLhmMcP8DtYiS9fZn-LsFikc'/>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
