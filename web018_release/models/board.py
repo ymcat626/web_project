@@ -1,6 +1,6 @@
-import datetime
 import time
-from models import Model
+
+from . import Model
 
 
 class Board(Model):
@@ -9,4 +9,5 @@ class Board(Model):
         self.title = form.get('title', '')
         self.ct = int(time.time())
         self.ut = self.ct
+
 
