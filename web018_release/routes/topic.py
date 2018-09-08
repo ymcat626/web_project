@@ -4,6 +4,7 @@ from flask import (
     redirect,
     request,
     render_template,
+    abort,
 )
 from ..models.topic import Topic
 from . import current_user
@@ -39,3 +40,14 @@ def detail(id):
     m = Topic.get(id)
     return render_template('topic/detail.html', topic=m)
 
+
+@main.route('/delete')
+def delete():
+    id = int(request.args.get('id'))
+    # token = request.args.get('token')
+    u = current_user()
+    if u is None:
+        abort(403)
+    else:
+        Topic.delete(id)
+        return redirect(url_for('.index'))

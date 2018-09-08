@@ -52,7 +52,7 @@
                 <a href="/?tab=all" class="topic-tab current-tab">全部</a>
                 {% for board in bs %}}
                 <a href="/?tab=good" class="topic-tab ">{{ board.title }}</a>
-                {% endfor %}}
+                {% endfor %}
             </div>
 
             <div class="inner">
@@ -81,6 +81,7 @@
                                title='{{ t.title }}'>
                                 {{ t.title }}
                             </a>
+                            <a href="{{ url_for('.delete', id=t.id) }}">删除</a>
                         </div>
                     </div>
                     {% endfor %}
