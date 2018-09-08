@@ -12,53 +12,57 @@
 </head>
 <body>
 <div class="navbar">
-  <div class="navbar-inner">
-    <div class="container">
-      <a class="brand" href="/">
-          <img src="//o4j806krb.qnssl.com/public/images/cnodejs_light.svg">
-      </a>
-
-      <form id="search_form" class="navbar-search" action="/search">
-        <input type="text" id="q" name="q" class="search-query span3" value="">
-      </form>
-      <ul class="nav pull-right">
-        <li><a href="/">首页</a></li>
-
-        <li>
-            <a href="/my/messages">
-              未读消息
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand" href="/">
+                <img src="//o4j806krb.qnssl.com/public/images/cnodejs_light.svg">
             </a>
-        </li>
 
-        <li><a href="/getstart">新手入门</a></li>
-        <li><a href="/api">API</a></li>
-        <li><a href="/about" target="">关于</a></li>
-        <li><a href="/setting">设置</a></li>
-        <li><a href="/signout" data-method="post" rel="nofollow">退出</a></li>
-
-      </ul>
-      <a class="btn btn-navbar" id="responsive-sidebar-trigger">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
+            <form id="search_form" class="navbar-search" action="/search">
+                <input type="text" id="q" name="q" class="search-query span3" value="">
+            </form>
+            <ul class="nav pull-right">
+                <li><a href="/">首页</a></li>
+                <li><a href="/my/messages">未读消息</a></li>
+                <li><a href="/getstart">新手入门</a></li>
+                <li><a href="/api">API</a></li>
+                <li><a href="/about" target="">关于</a></li>
+                <li><a href="/setting">设置</a></li>
+                <li><a href="/signout" data-method="post" rel="nofollow">退出</a></li>
+            </ul>
+            <a class="btn btn-navbar" id="responsive-sidebar-trigger">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+        </div>
     </div>
-  </div>
 </div>
 <div id='main'>
+
+    <div id="sidebar">
+        <div class="panel">
+            <div class="inner">
+                <a href="{{ url_for('.new') }}" class="create_topic_btn">
+                    <span class="span-success">发布话题</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div id="content">
         <div class="panel">
             <div class="header">
-                <a href="/?tab=all" class="topic-tab current-tab">全部</a>
-                {% for board in bs %}}
-                <a href="/?tab=good" class="topic-tab ">{{ board.title }}</a>
-                {% endfor %}
-            </div>
-
-            <div class="inner">
-                <a href="/topic/new" class="create_topic_btn">
-                    <span class="span-success">发布话题</span>
+                <a href="{{ url_for('.index') }}"
+                   class="topic-tab current-tab">
+                    全部
                 </a>
+                {% for b in bs %}
+                <a href="{{ url_for('.index', board_id=b.id)}}"
+                   class="topic-tab">
+                    {{ b.title }}
+                </a>
+                {% endfor %}
             </div>
 
             <div class="inner no-padding">
@@ -76,12 +80,12 @@
                         </span>
 
                         <div class="topic_title_wrapper">
-                            <span class='put_top'>置顶</span>
+                            <!--<span class='put_top'>置顶</span>-->
                             <a class='topic_title' href='{{ url_for("topic.detail", id=t.id) }}'
                                title='{{ t.title }}'>
                                 {{ t.title }}
                             </a>
-                            <a href="{{ url_for('.delete', id=t.id) }}">删除</a>
+                            <a class='topic_title' href="{{ url_for('.delete', id=t.id, token=token) }}">删除</a>
                         </div>
                     </div>
                     {% endfor %}
@@ -91,7 +95,12 @@
     </div>
 
 </div>
-
+<script>
+    	// $(".header a").click(function(){
+     //          $(".header a").removeClass("current-tab");
+     //          $(this).addClass("current-tab");
+	// })
+</script>
 
 </body>
 </html>
