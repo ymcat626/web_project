@@ -69,6 +69,9 @@
                 <div id="topic_list">
                     {% for t in ms %}
                     <div class='cell'>
+                        <a class="user_avatar pull-left" href="/user/yllziv">
+                            <img src="{{ url_for('index.upload', filename=t.user().user_image, v=4, s=120) }}">
+                        </a>
                         <span class="reply_count pull-left">
                             <span class="count_of_replies" title="回复数">
                                 {{ t.replies() | count }}

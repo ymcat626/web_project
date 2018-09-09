@@ -31,5 +31,10 @@ class Topic(Model):
         b = Board.find(self.board_id)
         return b
 
+    def user(self):
+        from .user import User
+        u = User.find(id=self.user_id)
+        return u
+
 
 
